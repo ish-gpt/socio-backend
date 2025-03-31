@@ -1,30 +1,33 @@
-import express from 'express';
-import http from 'http';
 import { Server } from 'socket.io';
 
-const app = express();
-const httpServer = http.createServer(app);
-const io = new Server(httpServer, {
-    cors: {
-        allowedHeaders: ['*'],
-        origin: '*'
+export class SocketConnection {
+    userSocketMap = {};
+
+    constructor(httpServer) {
+        const io = new Server(httpServer, {
+            cors: {
+                allowedHeaders: ['*'],
+                origin: '*'
+            }
+        });
+
+        io.on("connection", (socket) => {
+            // console.log("new array")
+            const userId = socket.handshake.query.userId;
+
+            if (userId) this.userSocketMap[userId] = socket.id;
+            io.emit("connectedClientID", Object.keys(this.userSocketMap));
+            // console.log("new array", this.userSocketMap);
+            socket.on('disconnect', () => {
+                delete this.userSocketMap[userId];
+                // console.log("disconnect loggedout", Object.keys(userSocketMap));
+                io.emit("connectedClientID", Object.keys(this.userSocketMap));
+            });
+
+            socket.on("newMessage", (msg) => {
+                // console.log(msg);
+                io.to(this.userSocketMap[msg.receiver]).emit('receivedMsg', msg);
+            });
+        });
     }
-});
-
-let userSocketMap = {};
-io.on("connection", (socket) => {
-
-    const userId = socket.handshake.query.userId;
-
-    if (userId) userSocketMap[userId] = socket.id;
-    socket.broadcast.emit("connectedClientID", Object.keys(userSocketMap));
-    // console.log("new array", userSocketMap);
-    socket.on('disconnect', () => {
-        delete userSocketMap[userId];
-        // console.log("disconnect loggedout", Object.keys(userSocketMap));
-        socket.broadcast.emit("connectedClientID", Object.keys(userSocketMap));
-    });
-
-});
-
-export { io, httpServer, app };
+}

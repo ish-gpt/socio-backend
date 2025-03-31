@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"node index.js",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,7 +18,11 @@
   },
   "homepage": "https://github.com/ish-gpt/insta-clone-backend#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.21.2",
+    "mongodb": "^6.15.0",
+    "mongoose": "^5.13.23",
+    "nodemon": "^3.1.9",
     "socket.io": "^4.8.1"
   },
   "type": "module"
