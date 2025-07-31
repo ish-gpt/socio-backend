@@ -1,10 +1,8 @@
 import express from 'express';
-import { saveMessages } from '../controllers/messages.js';
+import { saveMessages, getMessages } from '../controllers/messages.js';
 
 export const router = express.Router();
 
-router.get('/:id', (req, res) => {
-    //get all the messages for a chat.
-});
+router.get('/:id', getMessages);
 
-router.post('/send/:id', saveMessages);
+router.post('/save/:id', saveMessages);

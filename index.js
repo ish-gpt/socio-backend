@@ -5,6 +5,8 @@ import cors  from 'cors';
 import { SocketConnection } from './socket/socket.js';
 import { MongoConnection } from './dbLayer/connection/mongoConnection.js';
 import { router } from './routes/messages.js';
+import { userRoute } from './routes/userRouter.js';
+
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -15,12 +17,10 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 dbConnection.connectToMongo();
-
-// const user = new dbConnection.User({ _id: '3PiCMlDaFBaZKMmb4BExeNyNY88'});
-// await user.save();
-// console.log('User saved successfully!')
 
 const PORT = 8080;
 
@@ -28,8 +28,5 @@ httpServer.listen(PORT, () => {
     console.log('Server started at port 8080');
 });
 
-// app.use('/', (req, res) => {
-//     res.send("Hi from server");
-// })
-
 app.use('/api/v1/message', router)
+app.use('/user', userRoute);

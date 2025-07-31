@@ -7,9 +7,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    profilePicId: {
-        type: String
-    },
     friends: {
         type: Array
     }

@@ -2,6 +2,10 @@
 import mongoose from 'mongoose';
 
 const messagesSchema = new mongoose.Schema({
+    chatId: {
+        type: String,
+        required: true
+    },
     senderId: {
         type: String,
         required: true
@@ -12,10 +16,10 @@ const messagesSchema = new mongoose.Schema({
     },
     text: {
         type: String,
-    },
-    image: {
-        type: Buffer
     }
+    // image: {
+    //     type: Buffer
+    // }
 }, {
     timestamps:true
 });

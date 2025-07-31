@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/ish-gpt/insta-clone-backend#readme",
   "dependencies": {
+    "body-parser": "^2.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.0.0",
     "express": "^4.21.2",
     "mongodb": "^6.15.0",
     "mongoose": "^5.13.23",
